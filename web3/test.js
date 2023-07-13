@@ -18,144 +18,145 @@ web3.eth.accounts.wallet.add(account);
 // ABI (Application Binary Interface) of the contract
 const contractABI = [
     {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": true,
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          },
-          {
-            "indexed": true,
-            "internalType": "address",
-            "name": "owner",
-            "type": "address"
-          },
-          {
-            "indexed": true,
-            "internalType": "address",
-            "name": "addr",
-            "type": "address"
-          }
-        ],
-        "name": "NewName",
-        "type": "event"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          }
-        ],
-        "name": "owner",
-        "outputs": [
-          {
-            "internalType": "address",
-            "name": "",
-            "type": "address"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function",
-        "constant": true
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          }
-        ],
-        "name": "resolve",
-        "outputs": [
-          {
-            "internalType": "address",
-            "name": "",
-            "type": "address"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function",
-        "constant": true
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          },
-          {
-            "internalType": "address",
-            "name": "addr",
-            "type": "address"
-          }
-        ],
-        "name": "registerName",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          },
-          {
-            "internalType": "address",
-            "name": "newAddr",
-            "type": "address"
-          }
-        ],
-        "name": "updateAddress",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "addr",
-            "type": "address"
-          }
-        ],
-        "name": "getNameByAddress",
-        "outputs": [
-          {
-            "internalType": "string",
-            "name": "",
-            "type": "string"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function",
-        "constant": true
-      }
-]
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "addr",
+          "type": "address"
+        }
+      ],
+      "name": "NewName",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        }
+      ],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        }
+      ],
+      "name": "resolve",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "internalType": "address",
+          "name": "addr",
+          "type": "address"
+        }
+      ],
+      "name": "registerName",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "internalType": "address",
+          "name": "newAddr",
+          "type": "address"
+        }
+      ],
+      "name": "updateAddress",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "addr",
+          "type": "address"
+        }
+      ],
+      "name": "getNameByAddress",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    }
+  ]
 // ---읽기 시작---
 const contract = new web3.eth.Contract(contractABI, contractAddress);
 // 'owner' 메소드 호출 예제
-// const name = 'zzzzz.eth';
+const name = 'eth.eth';
+
 // contract.methods.owner(name).call()
 // .then((result) => {
 //     console.log('owner of', name, 'is', result);
 // }).catch((err) => {
 // console.log(err)
 // });
-contract.methods.getNameByAddress(walletAddress).call()
-.then((name) => {
-    console.log(name);
-})
-.catch((err) => {
-    console.error(err);
-});
+// contract.methods.getNameByAddress(walletAddress).call()
+// .then((name) => {
+//     console.log(name);
+// })
+// .catch((err) => {
+//     console.error(err);
+// });
 
 
 // contract.methods.resolve('woo.eth').call()
@@ -173,8 +174,8 @@ contract.methods.getNameByAddress(walletAddress).call()
 //     console.log(err);
 // });
 
-// ----읽기종료 -----
-// const name = 'zzzzz.eth';
+//----읽기종료 -----
+
 // //---쓰기 시작 -----
 // web3.eth.personal.unlockAccount(walletAddress, accountPassword, 600)
 //     .then(() => {
@@ -222,16 +223,16 @@ async function registerName(name,address){
     }, [name,address]);
 
     const gasEstimate = await web3.eth.estimateGas({
-        from: process.env.WALLET_ADDRESS,
+        from: address,
         to: contractAddress,
         data: data
     });
     
     const tx = {
             gas: gasEstimate,
-            gasPrice: web3.utils.toWei('100', 'gwei'),
+            gasPrice: web3.utils.toWei('1', 'gwei'),
             to: contractAddress,
-            from: process.env.WALLET_ADDRESS,
+            from: address,
             data: data,
             value:0x0
         }
@@ -244,7 +245,8 @@ async function registerName(name,address){
     
 }
 
-async function resolveENS(name, contract) {
+async function resolveENS(name) {
+    console.debug("!!!!!>>>", name)
     try {
         const address = await contract.methods.resolve(name).call();
         return address;
@@ -253,9 +255,9 @@ async function resolveENS(name, contract) {
         return null;
     }
 }
-// contract.methods.resolve('woo.eth').call()
-// .then((result) => {
-//     console.log('address of', 'woo.eth', 'is', result);
-// });
+contract.methods.resolve('woo.eth').call()
+.then((result) => {
+    console.log('address of', 'is', result);
+});
 
-module.exports = { resolveENS };
+module.exports = { resolveENS, registerName };

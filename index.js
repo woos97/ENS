@@ -18,13 +18,26 @@ app.use(express.static('build'));
   // const boardsql = require('./routes/boardsql.js')()
   // app.use('/board', boardsql)
 
+  const main = require('./routes/main.js')()
+  app.use('/', main)
+
+  const search = require('./routes/search.js')()
+  app.use('/search', search)
+
+  const ens = require('./routes/makeens.js')()
+  app.use('/makeens', ens)
+  
+
+  const boardsql = require('./routes/boardsql.js')()
+  app.use('/board', boardsql)
+
+  const myPage = require('./routes/myPage.js')()
+  app.use('/myPage', myPage)
+  
+  
   app.get('/', function(req, res){
-      res.render('main')
-  })
-
-const search = require('./routes/search.js')()
-app.use('/search', search)
-
+    res.render('main')
+})
 
   // market route
   // const market = require('./routes/marketplace.js')()

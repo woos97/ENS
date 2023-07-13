@@ -1,7 +1,7 @@
 const express = require('express')
-const router = express.Router()
-const Web3 = require('web3');
-const web3 = new Web3(new Web3.providers.HttpProvider('http://172.30.1.72:8546'));
+const router  = express.Router()
+const Web3    = require('web3');
+const web3    = new Web3(new Web3.providers.HttpProvider('https://1d61-119-192-224-93.ngrok-free.app/geth/'));
 
 const mysql = require('mysql2')
 const connection = mysql.createConnection({
@@ -13,94 +13,63 @@ const connection = mysql.createConnection({
 })
 
 module.exports = ()=>{
+    router.post("/", function(req, res){
 
-
-    router.post('/', async function(req, res){
-        console.log(req.body)
-        const wallet = req.body.walletAddress[0]
-        const walletbal =await web3.eth.getBalance(wallet)
-        const balance =  walletbal / 10 ** 18
-        const hexchainid = req.body.walletAddress[2]
-
-        console.log("wallet : " + wallet)
-        console.log("balance : " + walletbal / 10 ** 18)
-        console.log("hexchainid : " + hexchainid)
-        
-        if(wallet){
-            // console.log("지갑주소 :" + wallet)
-90
-            const sql = `
-                select *
-                from testenn.users
-                where 
-                wallet = ?
-            `
-            connection.query(
-                sql,
-                wallet,
-                function(err, result){
-                    if(err){
-                        console.log(err)
-                    }else{
-                        console.log("검색완료")
-                        console.log("검색결과 : " + JSON.stringify(result))
-                                        
-                        if(!result || result.length == 0){
-                            console.log('1')
-                                const sql = `
-                                    insert into 
-                                    testenn.users(wallet, balance, hexchainid, created_at)
-                                    values (?, ?, ?, now())
-                                `
-                                const values = [wallet, balance, hexchainid]
-                                connection.query(
-                                    sql,
-                                    values,
-                                    function(err, result){
-                                        if(err){
-                                            console.log(err)
-                                        }else{
-                                            console.log("인서트 완료" )
-                                        }
-                                    }
-                                )
-                        }else{
-                            console.log('2')
-                                const sql = `
-                                    update testenn.users set
-                                    balance = ? 
-                                    where 
-                                    wallet = ?
-                                    `
-                                const values = [balance, wallet]
-                                connection.query(
-                                    sql,
-                                    values,
-                                    function(err, result){
-                                        if(err){
-                                            console.log(err)
-                                        }else{
-                                            console.log("업데이트 완료")
-                                        }
-                                    }
-                                )
-                        }
-                    }
-                }
-            )
-
-
+        const wallet  = req.body.wallet
+        let ensname = req.body.ensname
+        if (!wallet) {
+            console.error('Invalid or missing wallet value: ', wallet);
+            res.send('Invalid or missing wallet value');
+            return;
         }
-        // const wl = JSON.stringify(wallet)
-        
+        console.log('----------',wallet,ensname,'----------')
 
-        console.log(wallet +"연동")
-    })
-
-    router.get("/test", function(req, res){
-        res.send('test')
-    })
-
-
-    return router
+                let sql = `SELECT id FROM testenn.users WHERE wallet = ?`;
+                connection.query(sql, wallet, function(err, results){
+                    if(err){
+                        console.log(err);
+                    }else{
+                        console.log('1',results); 
+                        let user_id = results[0].id; 
+                        console.log('2',user_id); 
+                        sql = `
+                            INSERT INTO testenn.nfts(ensname, user_id, account)
+                            VALUES (?, ?, ?)
+                        `;
+                        const values = [ensname, user_id, wallet];
+                        connection.query(sql, values, function(err, result){
+                            if(err){
+                                console.log(err);
+                            }else{
+                                sql = `
+                                SELECT id FROM testenn.nfts WHERE ensname = ?
+                                `;
+                            connection.query(sql, ensname, function(err, results){
+                                if(err){
+                                    console.log(err);
+                                }else{
+                                    const nft_id = results[0].id; 
+                                    console.log("3",nft_id)
+                                    console.log('4',user_id);
+                                    sql = `
+                                        UPDATE testenn.users SET 
+                                        active_nft_id = ? WHERE id = ?
+                                    `;
+                                    const idValues = [nft_id, user_id];
+                                    console.log(nft_id)
+                                    connection.query(sql, idValues, function(err, result){
+                                        if(err){
+                                            console.log(err);
+                                        }else{
+                                            res.send("등록완료");
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        });
+        return router;
 }
